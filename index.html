@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2c3e50">
+
+  <meta charset="UTF-8">
+  <title>リマインダーToDoリスト</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- LeafletのCSSとJSを読み込む -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+<body>
+  <h1>リマインダーToDoリスト</h1>
+
+  <input type="text" id="taskInput" placeholder="タスクを入力してください">
+  <!-- 地図表示エリア -->
+<div id="map" style="height: 300px;"></div>
+
+  <ul id="taskList"></ul>
+
+  <script src="script.js"></script>
+
+<button id="addTaskButton">リストに追加</button>
+<ul id="taskList"></ul>
+<div id="map" style="height: 400px;"></div>
+
+</body>
+</html>
