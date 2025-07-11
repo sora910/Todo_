@@ -102,14 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const taskMarker = L.marker(selectedLatLng).addTo(map).bindPopup(taskText);
 
-    // ✅ タスクを保存（selectedLatLngはこの時点で有効）
-    tasks.push({
-      text: taskText,
-      lat: selectedLatLng.lat,
-      lng: selectedLatLng.lng,
-      notified: false
-    });
-
     // ✅ 一度だけ現在地を監視して通知処理
   navigator.geolocation.watchPosition((position) => {
     const userLat = position.coords.latitude;
@@ -133,6 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
     maximumAge: 10000,
     timeout: 5000
   });
+
+    // ✅ タスクを保存（selectedLatLngはこの時点で有効）
+    tasks.push({
+      text: taskText,
+      lat: selectedLatLng.lat,
+      lng: selectedLatLng.lng,
+      notified: false
+    });
 
     // 入力リセット
     taskInput.value = "";
