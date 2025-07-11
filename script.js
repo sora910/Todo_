@@ -63,6 +63,30 @@ document.addEventListener("DOMContentLoaded", () => {
     window.currentMarker = L.marker(selectedLatLng).addTo(map);
   });
 
+  // ✅ 一度だけ現在地を監視して通知処理
+  navigator.geolocation.watchPosition((position) => {
+    const userLat = position.coords.latitude;
+    const userLng = position.coords.longitude;
+
+    tasks.forEach(task => {
+      if (task.notified) return;
+
+      const distance = getDistance(userLat, userLng, task.lat, task.lng);
+      console.log(`距離: ${distance.toFixed(1)}m → タスク: ${task.text}`);
+
+      if (distance <= 100) {
+        new Notification(`近くでやること: ${task.text}`);
+        task.notified = true;
+      }
+    });
+  }, (err) => {
+    console.error("位置情報取得に失敗", err);
+  }, {
+    enableHighAccuracy: true,
+    maximumAge: 10000,
+    timeout: 5000
+  });
+
   // ✅ タスク追加処理
   addTaskButton.addEventListener("click", () => {
     const taskText = taskInput.value.trim();
@@ -102,29 +126,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const taskMarker = L.marker(selectedLatLng).addTo(map).bindPopup(taskText);
 
-    // ✅ 一度だけ現在地を監視して通知処理
-  navigator.geolocation.watchPosition((position) => {
-    const userLat = position.coords.latitude;
-    const userLng = position.coords.longitude;
+    // タスク追加後に呼び出す
+navigator.geolocation.getCurrentPosition((position) => {
+  const userLat = position.coords.latitude;
+  const userLng = position.coords.longitude;
 
-    tasks.forEach(task => {
-      if (task.notified) return;
+  tasks.forEach(task => {
+    if (task.notified) return;
 
-      const distance = getDistance(userLat, userLng, task.lat, task.lng);
-      console.log(`距離: ${distance.toFixed(1)}m → タスク: ${task.text}`);
+    const distance = getDistance(userLat, userLng, task.lat, task.lng);
+    console.log(`即時チェック: ${distance.toFixed(1)}m → ${task.text}`);
 
-      if (distance <= 100) {
-        new Notification(`近くでやること: ${task.text}`);
-        task.notified = true;
-      }
-    });
-  }, (err) => {
-    console.error("位置情報取得に失敗", err);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 10000,
-    timeout: 5000
+    if (distance <= 100) {
+      new Notification(`近くでやること: ${task.text}`);
+      task.notified = true;
+    }
   });
+});
+
 
     // ✅ タスクを保存（selectedLatLngはこの時点で有効）
     tasks.push({
