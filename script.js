@@ -129,6 +129,24 @@ navigator.geolocation.getCurrentPosition((position) => {
       notified: false
     });
 
+    navigator.geolocation.getCurrentPosition((position) => {
+  const userLat = position.coords.latitude;
+  const userLng = position.coords.longitude;
+
+  tasks.forEach(task => {
+    if (task.notified) return;
+
+    const distance = getDistance(userLat, userLng, task.lat, task.lng);
+    console.log(`即時チェック: ${distance.toFixed(1)}m → ${task.text}`);
+
+    if (distance <= 100) {
+      new Notification(`近くでやること: ${task.text}`);
+      task.notified = true;
+    }
+  });
+});
+
+
     // 入力リセット
     taskInput.value = "";
     selectedLatLng = null;
