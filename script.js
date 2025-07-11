@@ -40,9 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 通知の許可
-  if (Notification.permission !== "granted") {
-    Notification.requestPermission();
-  }
+  if ('Notification' in window) {
+    Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+            console.log('Notification permission granted.');
+        } else {
+            console.log('Notification permission denied.');
+        }
+    });
+}
 
   let selectedLatLng = null;
   window.currentMarker = null;
@@ -150,3 +156,36 @@ document.addEventListener("DOMContentLoaded", () => {
     return R * c;
   }
 });
+
+const publicVapidKey = 'BBRhgYSInMmB65rT63gL-87R26Ta-Zp0a5WgFeOp1Qz3hYu-3NUVcj06W9cgSpMfDrwh7fwPC4hh4Ha1V9Mi07A';
+
+async function subscribeUser() {
+  const subscription = await register.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+  });
+
+  // サーバーに購読情報を送信
+  await fetch('http://localhost:3000', {
+    method: 'POST',
+    body: JSON.stringify(subscription),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+// 公開鍵の変換用関数
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  subscribeUser();  // ← ここで実行
+});
+
