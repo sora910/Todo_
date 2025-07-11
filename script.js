@@ -156,30 +156,6 @@ navigator.geolocation.getCurrentPosition((position) => {
     }
   });
 
-    // ✅ 一度だけ現在地を監視して通知処理
-  navigator.geolocation.watchPosition((position) => {
-    const userLat = position.coords.latitude;
-    const userLng = position.coords.longitude;
-
-    tasks.forEach(task => {
-      if (task.notified) return;
-
-      const distance = getDistance(userLat, userLng, task.lat, task.lng);
-      console.log(`距離: ${distance.toFixed(1)}m → タスク: ${task.text}`);
-
-      if (distance <= 100) {
-        new Notification(`近くでやること: ${task.text}`);
-        task.notified = true;
-      }
-    });
-  }, (err) => {
-    console.error("位置情報取得に失敗", err);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 10000,
-    timeout: 5000
-  });
-
   // 距離計算関数
   function getDistance(lat1, lon1, lat2, lon2) {
     const R = 6371000;
