@@ -160,6 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const publicVapidKey = 'BBRhgYSInMmB65rT63gL-87R26Ta-Zp0a5WgFeOp1Qz3hYu-3NUVcj06W9cgSpMfDrwh7fwPC4hh4Ha1V9Mi07A';
 
 async function subscribeUser() {
+  const register = await navigator.serviceWorker.register('/service-worker.js');
+
   const subscription = await register.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
