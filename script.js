@@ -102,6 +102,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const taskMarker = L.marker(selectedLatLng).addTo(map).bindPopup(taskText);
 
+    // タスク追加後に呼び出す
+navigator.geolocation.getCurrentPosition((position) => {
+  const userLat = position.coords.latitude;
+  const userLng = position.coords.longitude;
+
+  tasks.forEach(task => {
+    if (task.notified) return;
+
+    const distance = getDistance(userLat, userLng, task.lat, task.lng);
+    console.log(`即時チェック: ${distance.toFixed(1)}m → ${task.text}`);
+
+    if (distance <= 100) {
+      new Notification(`近くでやること: ${task.text}`);
+      task.notified = true;
+    }
+  });
+});
+
     // ✅ タスクを保存（selectedLatLngはこの時点で有効）
     tasks.push({
       text: taskText,
@@ -166,27 +184,3 @@ function urlBase64ToUint8Array(base64String) {
 document.addEventListener("DOMContentLoaded", () => {
   subscribeUser();  // ← ここで実行
 });
-
-// ✅ 一度だけ現在地を監視して通知処理
-  navigator.geolocation.watchPosition((position) => {
-    const userLat = position.coords.latitude;
-    const userLng = position.coords.longitude;
-
-    tasks.forEach(task => {
-      if (task.notified) return;
-
-      const distance = getDistance(userLat, userLng, task.lat, task.lng);
-      console.log(`距離: ${distance.toFixed(1)}m → タスク: ${task.text}`);
-
-      if (distance <= 100) {
-        new Notification(`近くでやること: ${task.text}`);
-        task.notified = true;
-      }
-    });
-  }, (err) => {
-    console.error("位置情報取得に失敗", err);
-  }, {
-    enableHighAccuracy: true,
-    maximumAge: 10000,
-    timeout: 5000
-  });
