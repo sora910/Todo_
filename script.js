@@ -40,14 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 通知の許可
-  if ('Notification' in window) {
-    Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-            console.log('Notification permission granted.');
-        } else {
-            console.log('Notification permission denied.');
-        }
-    });
+  if ('Notification' in window && 'serviceWorker' in navigator) {
+  Notification.requestPermission().then(permission => {
+    console.log("通知許可:", permission);
+  });
 }
 
   let selectedLatLng = null;
