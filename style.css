@@ -1,0 +1,112 @@
+/* 全体のベース */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f4f6f8;
+  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* タイトル */
+h1 {
+  margin-top: 20px;
+  font-size: 28px;
+  color: #2c3e50;
+}
+
+/* 入力欄 */
+#taskInput {
+  width: 90%;
+  max-width: 500px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* タスク追加ボタン */
+#addTaskButton {
+  padding: 10px 20px;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background-color 0.3s;
+}
+
+#addTaskButton:hover {
+  background-color: #34495e;
+}
+
+/* タスクリスト */
+#taskList {
+  width: 90%;
+  max-width: 500px;
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+#taskList li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#taskList li label {
+  flex: 1;
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+#taskList li button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+#taskList li button:hover {
+  background-color: #c0392b;
+}
+
+/* 地図 */
+#map {
+  width: 90%;
+  max-width: 500px;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* モバイル対応 */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  #taskInput,
+  #addTaskButton,
+  #taskList,
+  #map {
+    width: 95%;
+  }
+}
