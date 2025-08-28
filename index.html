@@ -39,17 +39,7 @@
   });
 </script>
 
-<button id="enableNotif">通知を有効化する</button>
-<script>
-document.getElementById("enableNotif").addEventListener("click", async () => {
-  const permission = await Notification.requestPermission();
-  console.log("通知の許可:", permission);
-  if (permission === "granted") {
-    subscribeUser(); // pushManager.subscribe() をここで呼ぶ
-  }
-});
-</script>
-
 </body>
 </html>
+
 
