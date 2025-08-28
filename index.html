@@ -29,5 +29,27 @@
 <button id="addTaskButton">リストに追加</button>
 <ul id="taskList"></ul>
 
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "991cf0a4-9f88-4f22-9e9a-dbf7c99c12f3",
+    });
+  });
+</script>
+
+<button id="enableNotif">通知を有効化する</button>
+<script>
+document.getElementById("enableNotif").addEventListener("click", async () => {
+  const permission = await Notification.requestPermission();
+  console.log("通知の許可:", permission);
+  if (permission === "granted") {
+    subscribeUser(); // pushManager.subscribe() をここで呼ぶ
+  }
+});
+</script>
+
 </body>
 </html>
+
