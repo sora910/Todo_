@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 通知の許可
-  if ('Notification' in window && 'serviceWorker' in navigator) {
-  Notification.requestPermission().then(permission => {
-    console.log("通知許可:", permission);
-  });
-}
+Notification.requestPermission().then(permission => {
+  if (permission === "granted") {
+    console.log("通知が許可されました");
+  }
+});
 
   let selectedLatLng = null;
   window.currentMarker = null;
@@ -199,3 +199,4 @@ function urlBase64ToUint8Array(base64String) {
 document.addEventListener("DOMContentLoaded", () => {
   subscribeUser();  // ← ここで実行
 });
+
